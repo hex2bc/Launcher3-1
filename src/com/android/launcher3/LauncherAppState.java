@@ -93,9 +93,9 @@ public class LauncherAppState {
         filter.addAction(Intent.ACTION_MANAGED_PROFILE_UNAVAILABLE);
         filter.addAction(Intent.ACTION_MANAGED_PROFILE_UNLOCKED);
 
-        if (FeatureFlags.IS_DOGFOOD_BUILD) {
+//        if (FeatureFlags.IS_DOGFOOD_BUILD) {
             filter.addAction(ACTION_FORCE_ROLOAD);
-        }
+//        }
 
         mContext.registerReceiver(mModel, filter);
         UserManagerCompat.getInstance(mContext).enableAndResetCache();

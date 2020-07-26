@@ -35,6 +35,7 @@ import android.util.Pair;
 import com.android.launcher3.compat.LauncherAppsCompat;
 import com.android.launcher3.compat.PackageInstallerCompat.PackageInstallInfo;
 import com.android.launcher3.compat.UserManagerCompat;
+import com.android.launcher3.config.CustomConfig;
 import com.android.launcher3.icons.IconCache;
 import com.android.launcher3.icons.LauncherIcons;
 import com.android.launcher3.model.AddWorkspaceItemsTask;
@@ -62,6 +63,7 @@ import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -300,9 +302,15 @@ public class LauncherModel extends BroadcastReceiver
                     enqueueModelUpdateTask(new UserLockStateChangedTask(user));
                 }
             }
-        } else if (IS_DOGFOOD_BUILD && ACTION_FORCE_ROLOAD.equals(action)) {
-            Launcher l = (Launcher) getCallback();
-            l.reload();
+        } else if (/*IS_DOGFOOD_BUILD && */ACTION_FORCE_ROLOAD.equals(action)) {
+            Log.d(TAG, "onReceive: ACTION_FORCE_ROLOAD");
+            if (!CustomConfig.getInstance().mIconPathMap.isEmpty()) {
+                for (String cmp : CustomConfig.getInstance().mIconPathMap.keySet()) {
+                    Log.d(TAG, "IconPathMap : " + cmp);
+                }
+            }
+            onPackageChanged("com.android.contacts", UserHandle.getUserHandleForUid(0));
+//            forceReload();
         }
     }
 

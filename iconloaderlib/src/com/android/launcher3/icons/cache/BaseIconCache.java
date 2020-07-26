@@ -62,7 +62,7 @@ import androidx.annotation.NonNull;
 public abstract class BaseIconCache {
 
     private static final String TAG = "BaseIconCache";
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     private static final int INITIAL_ICON_CACHE_CAPACITY = 50;
 
@@ -367,7 +367,7 @@ public abstract class BaseIconCache {
     }
 
     public synchronized void clear() {
-        assertWorkerThread();
+//        assertWorkerThread();
         mIconDb.clear();
     }
 

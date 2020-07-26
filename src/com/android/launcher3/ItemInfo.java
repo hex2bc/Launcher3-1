@@ -193,7 +193,8 @@ public class ItemInfo {
                 + " minSpan(" + minSpanX + "," + minSpanY + ")"
                 + " rank=" + rank
                 + " user=" + user
-                + " title=" + title;
+                + " title=" + title
+                + " cmp=" + getTargetComponent();
     }
 
     /**

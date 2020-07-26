@@ -156,6 +156,8 @@ public class OptionsPopupView extends ArrowPopup
                 R.string.styles_wallpaper_button_text : R.string.wallpaper_button_text;
         int resDrawable = Utilities.existsStyleWallpapers(launcher) ?
                 R.drawable.ic_palette : R.drawable.ic_wallpaper;
+        options.add(new OptionItem(R.string.style_button_text, R.drawable.ic_palette,
+                ControlType.WIDGETS_BUTTON, OptionsPopupView::onWidgetsClicked));
         options.add(new OptionItem(resString, resDrawable,
                 ControlType.WALLPAPER_BUTTON, OptionsPopupView::startWallpaperPicker));
         if (!FeatureFlags.GO_DISABLE_WIDGETS) {

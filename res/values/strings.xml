@@ -173,6 +173,8 @@
     <string name="folder_name_format">Folder: <xliff:g id="name" example="Games">%1$s</xliff:g></string>
 
     <!-- Strings for the customization mode -->
+    <!-- Text for style change button -->
+    <string name="style_button_text">Style</string>
     <!-- Text for widget add button -->
     <string name="widget_button_text">Widgets</string>
     <!-- Text for wallpaper change button -->
