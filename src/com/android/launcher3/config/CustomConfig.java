@@ -5,8 +5,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,14 +22,37 @@ public class CustomConfig {
     private final File CONFIG_FILE = new File("/sdcard/0pixel/launcher/config.xml");
     private HashMap<String,String> mConfigsMap = new HashMap<String,String>();
     public HashMap<String,String> mIconPathMap = new HashMap<String,String>();
+    private List<String> mStyles = new ArrayList<>();
+    private String mCurStyle;
 
     private CustomConfig() {
         try {
             loadXMLConfigs();
+            loadDefaultConfigs();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private void loadDefaultConfigs() {
+        String[] style = getConfig("styles").split(";");
+        if (style != null && style.length > 0) {
+            for (String config : style) {
+                mStyles.add(config);
+            }
+        }
+        mCurStyle = mStyles.get(0);
+    }
+
+    public List<String> getStyleList() {
+        return mStyles;
+    }
+
+    public void setStyle(int index) {
+        if (index >= mStyles.size()) return;
+        mCurStyle = mStyles.get(index);
+    }
+
     public static synchronized CustomConfig getInstance() {
         if (mCustomConfig == null) {
             synchronized (CustomConfig.class) {
@@ -50,13 +74,13 @@ public class CustomConfig {
         return false;
     }
 
-    public String getIconPathFromComponentName (String component) {
+    public String getIconPathFromComponentName(String component) {
         if (mIconPathMap.isEmpty()) {
             return null;
         }
-        String path = getConfig("custom_icon_path");
+        String path = getConfig("custom_path_prefix");
         if (path != null && mIconPathMap.get(component) != null) {
-            return String.format(path + mIconPathMap.get(component));
+            return String.format(path + mCurStyle + "/" + mIconPathMap.get(component));
         }
         return null;
     }

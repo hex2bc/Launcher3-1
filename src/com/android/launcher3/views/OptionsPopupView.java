@@ -38,6 +38,7 @@ import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.popup.ArrowPopup;
+import com.android.launcher3.settings.StyleListActivity;
 import com.android.launcher3.shortcuts.DeepShortcutView;
 import com.android.launcher3.userevent.nano.LauncherLogProto.Action;
 import com.android.launcher3.userevent.nano.LauncherLogProto.ControlType;
@@ -157,7 +158,7 @@ public class OptionsPopupView extends ArrowPopup
         int resDrawable = Utilities.existsStyleWallpapers(launcher) ?
                 R.drawable.ic_palette : R.drawable.ic_wallpaper;
         options.add(new OptionItem(R.string.style_button_text, R.drawable.ic_palette,
-                ControlType.WIDGETS_BUTTON, OptionsPopupView::onWidgetsClicked));
+                ControlType.WIDGETS_BUTTON, OptionsPopupView::openStyle));
         options.add(new OptionItem(resString, resDrawable,
                 ControlType.WALLPAPER_BUTTON, OptionsPopupView::startWallpaperPicker));
         if (!FeatureFlags.GO_DISABLE_WIDGETS) {
@@ -170,6 +171,14 @@ public class OptionsPopupView extends ArrowPopup
         show(launcher, target, options);
     }
 
+    public static boolean openStyle(View view) {
+        Launcher launcher = Launcher.getLauncher(view.getContext());
+        launcher.startActivity(new Intent().setClass(launcher, StyleListActivity.class)
+                .setPackage(launcher.getPackageName())
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        return true;
+    }
+    
     public static boolean onWidgetsClicked(View view) {
         return openWidgets(Launcher.getLauncher(view.getContext()));
     }

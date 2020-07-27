@@ -304,12 +304,19 @@ public class LauncherModel extends BroadcastReceiver
             }
         } else if (/*IS_DOGFOOD_BUILD && */ACTION_FORCE_ROLOAD.equals(action)) {
             Log.d(TAG, "onReceive: ACTION_FORCE_ROLOAD");
+            // adb shell am broadcast -a force-reload-launcher --ei style 0
+            int style = intent.getIntExtra("style", 0);
+            CustomConfig customConfig = CustomConfig.getInstance();
+            customConfig.setStyle(style);
             if (!CustomConfig.getInstance().mIconPathMap.isEmpty()) {
                 for (String cmp : CustomConfig.getInstance().mIconPathMap.keySet()) {
+                    String pkg = cmp.split("/")[0];
+                    if (pkg != null) {
+                        onPackageChanged(pkg, UserHandle.getUserHandleForUid(0));
+                    }
                     Log.d(TAG, "IconPathMap : " + cmp);
                 }
             }
-            onPackageChanged("com.android.contacts", UserHandle.getUserHandleForUid(0));
 //            forceReload();
         }
     }
