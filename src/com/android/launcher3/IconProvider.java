@@ -25,11 +25,10 @@ public class IconProvider implements ResourceBasedOverride {
      *                        original icon as long as the flattened version looks the same.
      */
     public Drawable getIcon(LauncherActivityInfo info, int iconDpi, boolean flattenDrawable) {
-        String path = CustomConfig.getInstance().getIconPathFromComponentName(info.getComponentName().flattenToString());
-        if (path != null) {
-            Log.d("huangqw", "get icon path: " + path);
-            return Drawable.createFromPath(path);
-        }
         return info.getIcon(iconDpi);
+    }
+
+    public Drawable getLocalIcon(String path) {
+        return Drawable.createFromPath(path);
     }
 }

@@ -19,8 +19,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.LauncherActivityInfo;
 import android.os.UserHandle;
+import android.util.Log;
 
+import com.android.launcher3.config.CustomConfig;
 import com.android.launcher3.icons.cache.CachingLogic;
+
+import java.io.File;
 
 public class LauncherActivtiyCachingLogic implements CachingLogic<LauncherActivityInfo> {
 
@@ -49,8 +53,16 @@ public class LauncherActivtiyCachingLogic implements CachingLogic<LauncherActivi
     public void loadIcon(Context context, LauncherActivityInfo object,
             BitmapInfo target) {
         LauncherIcons li = LauncherIcons.obtain(context);
-        li.createBadgedIconBitmap(mCache.getFullResIcon(object),
-                object.getUser(), object.getApplicationInfo().targetSdkVersion).applyTo(target);
+        String path = CustomConfig.getInstance()
+                .getIconPathFromComponentName(object.getComponentName().flattenToString());
+        if (path != null && new File(path).exists()) {
+            Log.d( "LauncherActivtiyCachingLogic", "get icon path: " + path);
+            li.createBadgedIconBitmap(mCache.getLocalIcon(path),
+                    object.getUser(), false).applyTo(target);
+        } else {
+            li.createBadgedIconBitmap(mCache.getFullResIcon(object),
+                    object.getUser(), object.getApplicationInfo().targetSdkVersion).applyTo(target);
+        }
         li.recycle();
     }
 }

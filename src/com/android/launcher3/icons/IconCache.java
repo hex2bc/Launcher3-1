@@ -235,6 +235,10 @@ public class IconCache extends BaseIconCache {
         return mIconProvider.getIcon(info, mIconDpi, flattenDrawable);
     }
 
+    public Drawable getLocalIcon(String path) {
+        return mIconProvider.getLocalIcon(path);
+    }
+
     @Override
     protected String getIconSystemState(String packageName) {
         return mIconProvider.getSystemStateForPackage(mSystemState, packageName);
