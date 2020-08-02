@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,10 +37,8 @@ public class CustomConfig {
 
     private void loadDefaultConfigs() {
         String[] style = getConfig("styles").split(";");
-        if (style != null && style.length > 0) {
-            for (String config : style) {
-                mStyles.add(config);
-            }
+        if (style.length > 0) {
+            mStyles.addAll(Arrays.asList(style));
         }
         mCurStyle = mStyles.get(0);
     }
@@ -51,6 +50,10 @@ public class CustomConfig {
     public void setStyle(int index) {
         if (index >= mStyles.size()) return;
         mCurStyle = mStyles.get(index);
+    }
+
+    public int getCutStyleIndex() {
+        return mStyles.indexOf(mCurStyle);
     }
 
     public static synchronized CustomConfig getInstance() {
@@ -83,6 +86,15 @@ public class CustomConfig {
             return String.format(path + mCurStyle + "/" + mIconPathMap.get(component));
         }
         return null;
+    }
+
+    public List<String> getAllStyleThumbPath() {
+        List<String> thumb_list = new ArrayList<>();
+        for (String style : mStyles) {
+            String path = getConfig("custom_path_prefix") + style + "/thumbnail.png";
+            thumb_list.add(path);
+        }
+        return thumb_list;
     }
 
     public String getConfig(String config) {
