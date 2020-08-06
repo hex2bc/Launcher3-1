@@ -308,6 +308,9 @@ public class LauncherModel extends BroadcastReceiver
             int style = intent.getIntExtra("style", 0);
             CustomConfig customConfig = CustomConfig.getInstance();
             customConfig.setStyle(style);
+            mApp.getInvariantDeviceProfile().forceReload(mApp.getContext());
+/*
+            // 只更新定制化后的app
             if (!CustomConfig.getInstance().mIconPathMap.isEmpty()) {
                 for (String cmp : CustomConfig.getInstance().mIconPathMap.keySet()) {
                     String pkg = cmp.split("/")[0];
@@ -317,6 +320,7 @@ public class LauncherModel extends BroadcastReceiver
                     Log.d(TAG, "IconPathMap : " + cmp);
                 }
             }
+*/
 //            forceReload();
         }
     }

@@ -21,6 +21,7 @@ import static com.android.launcher3.config.FeatureFlags.APPLY_CONFIG_AT_RUNTIME;
 import static com.android.launcher3.util.PackageManagerHelper.getPackageFilter;
 
 import android.annotation.TargetApi;
+import android.app.WallpaperManager;
 import android.appwidget.AppWidgetHostView;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -42,6 +43,7 @@ import android.util.Xml;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.android.launcher3.config.CustomConfig;
 import com.android.launcher3.graphics.IconShape;
 import com.android.launcher3.util.ConfigMonitor;
 import com.android.launcher3.util.IntArray;
@@ -51,6 +53,9 @@ import com.android.launcher3.util.Themes;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -310,6 +315,23 @@ public class InvariantDeviceProfile {
         }
 
         apply(context, changeFlags);
+    }
+
+    public void forceReload(Context context) {
+        File wp = new File(CustomConfig.getInstance().getWallpaperPath());
+        if (wp.exists()) {
+            WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
+            try {
+                wallpaperManager.setStream(new FileInputStream(wp));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        initGrid(context, null);
+        Log.d(TAG, "forceReload: initGrid end");
+        IconShape.init(context);
+        Log.d(TAG, "forceReload: IconShape.init end");
+        apply(context, CHANGE_FLAG_GRID | CHANGE_FLAG_ICON_PARAMS);
     }
 
     private void apply(Context context, int changeFlags) {

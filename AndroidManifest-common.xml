@@ -176,6 +176,15 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".settings.StyleListActivity"
+            android:label="@string/style_button_text"
+            android:theme="@android:style/Theme.DeviceDefault.Light"
+            android:autoRemoveFromRecents="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
         <provider
             android:name="com.android.launcher3.testing.TestInformationProvider"
             android:authorities="${packageName}.TestInfo"

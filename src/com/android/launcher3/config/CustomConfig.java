@@ -97,6 +97,10 @@ public class CustomConfig {
         return thumb_list;
     }
 
+    public String getWallpaperPath() {
+        return  getConfig("custom_path_prefix") + mStyles.get(getCutStyleIndex()) + "/wallpaper.png";
+    }
+
     public String getConfig(String config) {
         return getConfig(config, null);
     }

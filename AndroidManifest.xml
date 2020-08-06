@@ -66,10 +66,6 @@
                 android:value="${packageName}.grid_control" />
         </activity>
 
-        <activity android:name=".settings.StyleListActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
+
     </application>
 </manifest>

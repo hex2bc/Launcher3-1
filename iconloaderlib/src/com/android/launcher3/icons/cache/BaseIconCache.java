@@ -367,7 +367,7 @@ public abstract class BaseIconCache {
     }
 
     public synchronized void clear() {
-//        assertWorkerThread();
+        assertWorkerThread();
         mIconDb.clear();
     }
 
